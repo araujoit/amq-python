@@ -21,7 +21,9 @@ def on_request(ch, method, props, body):
     n = int(body)
 
     print(" [.] fib(%s)" % n)
+    # ch.basic_ack(delivery_tag=method.delivery_tag)
     response = fib(n)
+    print(" [.] fib value for", n, "=", response)
 
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,

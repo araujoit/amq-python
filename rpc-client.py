@@ -4,6 +4,7 @@ import uuid
 
 class FibonacciRpcClient(object):
     def __init__(self):
+        self.queue = 'rpc_queue'
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
         self.channel = self.connection.channel()
@@ -11,6 +12,7 @@ class FibonacciRpcClient(object):
         result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = result.method.queue
 
+        print(' [x]Listening asnwer on', self.callback_queue)
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
 
@@ -22,7 +24,7 @@ class FibonacciRpcClient(object):
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
-                                   routing_key='rpc_queue',
+                                   routing_key=self.queue,
                                    properties=pika.BasicProperties(
                                          reply_to = self.callback_queue,
                                          correlation_id = self.corr_id,
@@ -34,6 +36,6 @@ class FibonacciRpcClient(object):
 
 fibonacci_rpc = FibonacciRpcClient()
 
-print(" [x] Requesting fib(30)")
+print(" [x] Requesting fib(30) on", fibonacci_rpc.queue)
 response = fibonacci_rpc.call(30)
 print(" [.] Got %r" % response)
