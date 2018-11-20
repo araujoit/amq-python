@@ -1,4 +1,4 @@
-# RabbitMQ-Test
+# AMQ Python
 Proeto criado com o intuito de estudar as seguintes tecnologias:
 * RabbitMQ
 * Python
