@@ -2,6 +2,13 @@
 import pika
 import sys
 
+
+# Abre conexão com o RabbitMQ
+# Declara um exchange do tipo direct
+# Declara uma queue exclusiva, com nome randômico
+# Para cada severidade em um array:
+# 1. conecta com a queue exclusiva
+# Inicia consumo das queues
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 

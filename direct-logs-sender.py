@@ -1,6 +1,11 @@
 import pika
 import time
 
+# A cada 2 segundos:
+# Abre conexão com o RabbitMQ
+# Declara um exchange do tipo direct
+# Publica uma mensagem em uma severidade
+# Encerra a conexão
 while True:
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()

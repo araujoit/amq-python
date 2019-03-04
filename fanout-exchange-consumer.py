@@ -2,6 +2,10 @@
 import pika
 
 
+# Abre conexão com o RabbitMQ
+# Declara o exchange do tipo fanout, com foco em logs
+# Declara a queue exclusiva
+# 'Escuta' a queue, e quando recebe a mensagem printa na tela
 def callback(ch, method, properties, body):
     print(" [x] %r" % body)
 

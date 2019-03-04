@@ -2,6 +2,14 @@
 import pika
 import time
 
+
+# Abre conexão com o RabbitMQ
+# Declara queue 'durable'
+# Configura a queue para processar apenas uma mensagem por vez
+# Inicia consumo da queue
+# Quando recebe mensagem:
+# 1. printa quantidade de pontos na mensagem
+# 2. envia ack para o RabbitMQ
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 

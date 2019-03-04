@@ -1,6 +1,10 @@
 import pika
 
 
+# Abre conexão com o RabbitMQ
+# Declara uma queue
+# Inicia consumo da queue
+
 # Callback function
 def callback(ch, method, properties, body):
     print(" [x] Recebido %r" % body)

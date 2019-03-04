@@ -2,6 +2,10 @@
 import pika
 import uuid
 
+# Abre conexão com o rabbit
+# Envia um número para a queue 'rpc_queue'
+# 'Escuta' a queue onde o response será publicado
+# Quando recebe a resposta do cálculo, printa na tela e fecha a conexão
 class FibonacciRpcClient(object):
     def __init__(self):
         self.queue = 'rpc_queue'

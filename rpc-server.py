@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+
+
+
+# Abre conexão com o rabbit, ouvindo a queue 'rpc_queue'.
+# Quando recebe a distribuição de um número para processamento:
+# 1. Calcula o fibonacci do número
+# 2. Publica o resultado na fila recebida como parâmetro
+# 3. Envia um 'ack' para o RabbitMQ
+# Fecha a conexão
 import pika
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))

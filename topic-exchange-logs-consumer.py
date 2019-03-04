@@ -2,6 +2,10 @@
 import pika
 import sys
 
+# Abre uma conexão com o RabbitMQ
+# Declara uma exchange exclusiva, do tipo 'topic' e com nome randômico
+# Obtém a binding_key por parâmetro, senão define um parâmetro
+# Abre um canal de comunicação para recepção de logs
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
@@ -13,8 +17,9 @@ queue_name = result.method.queue
 
 binding_keys = sys.argv[1:]
 if not binding_keys:
-    sys.stderr.write("Usage: %s [binding_key]...\n" % sys.argv[0])
-    sys.exit(1)
+    binding_keys = 'app_name.error'
+    # sys.stderr.write("Usage: %s [binding_key]...\n" % sys.argv[0])
+    # sys.exit(1)
 
 for binding_key in binding_keys:
     channel.queue_bind(exchange='topic_logs',

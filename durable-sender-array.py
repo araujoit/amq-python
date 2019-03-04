@@ -2,6 +2,12 @@
 import pika
 
 
+# Declara um array de nomes
+# Para cada nome:
+# 1. Monta uma frase com um número X de pontos
+# 2. Abre conexão com o RabbitMQ
+# 2. Declara queue 'durable'
+# 3. Publica a mensagem na queue, de forma à ser persistida no disco
 def repeat_to_length(string_to_expand, length):
     return (string_to_expand * (int(length / len(string_to_expand)) + 1))[:length]
 

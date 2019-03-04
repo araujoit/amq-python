@@ -2,6 +2,11 @@
 import pika
 import sys
 
+# Abre uma conexão com o RabbitMQ
+# Declara uma exchange, do tipo 'topic' e com nome randômico
+# Define um parâmetro de routing_key, caso não tenha sido recebido por parâmetro
+# Define uma mensagem para envio, caso não tenha sido recebido por parâmetro
+# Envia o log
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 

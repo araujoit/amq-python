@@ -2,6 +2,11 @@
 import pika
 import sys
 
+# Abre conexão com o RabbitMQ
+# Declara o exchange do tipo fanout, com foco em logs
+# Define a mensagem padrão para envio, senão for recebida por parâmetro
+# Envia a mensagem
+# Fecha a conexão
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 

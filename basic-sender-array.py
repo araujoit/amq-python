@@ -1,6 +1,14 @@
 import pika
 import time
 
+# A cada 10 segundos:
+# Abre conexão com o RabbitMQ
+# Declara uma queue
+# Para cada nome em um array:
+# 1. mona uma mensagem
+# 2. publica uma mensagem na queue
+# 3. printa na tela
+# Encerra a conexão
 while True:
     # Definindo connection
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
