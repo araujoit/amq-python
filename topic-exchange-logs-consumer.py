@@ -2,6 +2,7 @@
 import pika
 import sys
 
+
 # Abre uma conexão com o RabbitMQ
 # Declara uma exchange exclusiva, do tipo 'topic' e com nome randômico
 # Obtém a binding_key por parâmetro, senão define um parâmetro
@@ -12,7 +13,7 @@ channel = connection.channel()
 channel.exchange_declare(exchange='topic_logs',
                          exchange_type='topic')
 
-result = channel.queue_declare(exclusive=True)
+result = channel.queue_declare(queue='', exclusive=True)
 queue_name = result.method.queue
 
 binding_keys = sys.argv[1:]
@@ -33,8 +34,8 @@ def callback(ch, method, properties, body):
     print(' [x] %r:%r' % (method.routing_key, body))
 
 
-channel.basic_consume(callback,
-                      queue=queue_name,
-                      no_ack=True)
+channel.basic_consume(queue_name,
+                      callback,
+                      auto_ack=True)
 
 channel.start_consuming()

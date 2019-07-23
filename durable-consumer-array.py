@@ -33,8 +33,8 @@ print("Configuring consumer to process only one message by time")
 channel.basic_qos(prefetch_count=1)
 
 print("Configuring callback method")
-channel.basic_consume(callback,
-                      queue='task_queue')
+channel.basic_consume('task_queue',
+                      callback)
 
 print("Start consuming")
 channel.start_consuming()

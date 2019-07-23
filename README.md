@@ -18,6 +18,9 @@ Possíveis cenários
     >> Executores podem ser configurados para receber apenas um processamento por vez
     >
     >> Possibilidade de escalar os executores dos cálculos em servidores diferentes
+    
+    
+Python version: 1.1.0
 
 Links úteis:
 > * [URL Local](http://localhost:15672)

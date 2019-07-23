@@ -2,6 +2,7 @@
 import pika
 import uuid
 
+
 # Abre conexão com o rabbit
 # Envia um número para a queue 'rpc_queue'
 # 'Escuta' a queue onde o response será publicado
@@ -13,12 +14,13 @@ class FibonacciRpcClient(object):
 
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(exclusive=True)
+        result = self.channel.queue_declare(queue='', exclusive=True)
         self.callback_queue = result.method.queue
 
         print(' [x]Listening asnwer on', self.callback_queue)
-        self.channel.basic_consume(self.on_response, no_ack=True,
-                                   queue=self.callback_queue)
+        self.channel.basic_consume(self.callback_queue,
+                                   self.on_response,
+                                   auto_ack=True)
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
@@ -27,16 +29,18 @@ class FibonacciRpcClient(object):
     def call(self, n):
         self.response = None
         self.corr_id = str(uuid.uuid4())
+
         self.channel.basic_publish(exchange='',
                                    routing_key=self.queue,
+                                   body=str(n),
                                    properties=pika.BasicProperties(
-                                         reply_to = self.callback_queue,
-                                         correlation_id = self.corr_id,
-                                         ),
-                                   body=str(n))
+                                       reply_to=self.callback_queue,
+                                       correlation_id=self.corr_id,
+                                   ))
         while self.response is None:
             self.connection.process_data_events()
         return int(self.response)
+
 
 fibonacci_rpc = FibonacciRpcClient()
 

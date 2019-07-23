@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pika
 
 
@@ -19,9 +20,8 @@ queue_name = 'hello'
 # Declaring queue
 channel.queue_declare(queue=queue_name)
 # Defining consumer function, queue and authomatic ack
-channel.basic_consume(callback,
-                      queue=queue_name,
-                      no_ack=True)
-
+channel.basic_consume(queue_name,
+                      callback,
+                      auto_ack=True)
 print(' [*] Aguardando por mensagens. Para sair digite CTRL+C')
 channel.start_consuming()

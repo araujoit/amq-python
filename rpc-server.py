@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 # Abre conexão com o rabbit, ouvindo a queue 'rpc_queue'.
 # Quando recebe a distribuição de um número para processamento:
 # 1. Calcula o fibonacci do número
@@ -29,21 +28,20 @@ def fib(n):
 def on_request(ch, method, props, body):
     n = int(body)
 
-    print(" [.] fib(%s)" % n)
+    print(" [.] calculating fib(%s)" % n)
     # ch.basic_ack(delivery_tag=method.delivery_tag)
     response = fib(n)
     print(" [.] fib value for", n, "=", response)
 
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
-                     properties=pika.BasicProperties(correlation_id= \
-                                                         props.correlation_id),
-                     body=str(response))
+                     body=str(response),
+                     properties=pika.BasicProperties(correlation_id=props.correlation_id))
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 channel.basic_qos(prefetch_count=1)
-channel.basic_consume(on_request, queue='rpc_queue')
+channel.basic_consume('rpc_queue', on_request)
 
 print(" [x] Awaiting RPC requests")
 channel.start_consuming()

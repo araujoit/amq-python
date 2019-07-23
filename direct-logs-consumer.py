@@ -2,7 +2,6 @@
 import pika
 import sys
 
-
 # Abre conexão com o RabbitMQ
 # Declara um exchange do tipo direct
 # Declara uma queue exclusiva, com nome randômico
@@ -17,7 +16,7 @@ channel.exchange_declare(exchange='direct_logs',
                          exchange_type='direct')
 
 # Declara uma queue exclusiva com um nome randômico
-result = channel.queue_declare(exclusive=True)
+result = channel.queue_declare('direct-logs-queue', exclusive=True)
 # Obtêm o nome da queue criada
 queue_name = result.method.queue
 # Efetua o bind da queue com a exchange
@@ -41,8 +40,8 @@ def callback(ch, method, properties, body):
 
 
 # Efetua consumo da queue
-channel.basic_consume(callback,
-                      queue=queue_name,
-                      no_ack=True)
+channel.basic_consume(queue_name,
+                      callback,
+                      auto_ack=True)
 
 channel.start_consuming()
