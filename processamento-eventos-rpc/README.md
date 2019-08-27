@@ -12,8 +12,8 @@ Desenvolvidos bots com o intuito de efetuar testes de processamento RPC.
 
 
 ## Configuração:
-- Script de criação: script.sql
-- Script inicial de configuração: init_config.sql
+- Script de criação: mysql_script.sql
+- Script inicial de configuração: mysql_init_config.sql
 
 
 ## Future Releases:
